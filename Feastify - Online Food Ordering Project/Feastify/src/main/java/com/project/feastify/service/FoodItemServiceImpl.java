@@ -32,17 +32,19 @@ import software.amazon.awssdk.services.s3.model.PutObjectResponse;
 
 public class FoodItemServiceImpl implements FoodItemService {
 	
-	private final S3Client s3Client;
+	@Autowired
+	private  S3Client s3Client;
 
-	//@Autowired
-	private final FoodItemRepository foodItemRepository;
+	@Autowired
+	private  FoodItemRepository foodItemRepository;
 	
-	private final ModelMapper modelMapper;
+	@Autowired
+	private  ModelMapper modelMapper;
 	
-	//@Value("${aws.s3.bucketname}")
+	@Value("${aws.s3.bucketname}")
 	private  String bucketName;
 	
-	public FoodItemServiceImpl(
+	/*public FoodItemServiceImpl(
 	        S3Client s3Client,
 	        @Value("${aws.s3.bucketname}") String bucketName,
 	        FoodItemRepository foodItemRepository,
@@ -52,7 +54,7 @@ public class FoodItemServiceImpl implements FoodItemService {
 	        this.bucketName = bucketName;
 	        this.foodItemRepository = foodItemRepository;
 	        this.modelMapper = modelMapper;
-	    }
+	    }*/
 
 
 	@Override
