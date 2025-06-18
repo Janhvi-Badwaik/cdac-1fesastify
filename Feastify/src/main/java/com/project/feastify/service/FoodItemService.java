@@ -15,4 +15,8 @@ public interface FoodItemService {
  List<FoodItemRespDTO> getFoods();
 
  FoodItemRespDTO getFood(Long foodId);
+ 
+ boolean deleteFile(String filename);
+ 
+ void deleteFood(Long id);
 }
