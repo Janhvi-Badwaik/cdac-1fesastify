@@ -14,6 +14,7 @@ public class FoodItemReqDTO {
 	private String description;
 	private double price;
 	private String category;
+	private Boolean isVeg;
 	
 
 }

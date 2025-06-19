@@ -71,7 +71,7 @@ public class FoodItemController {
 	
 	
 	/*public ResponseEntity<?> addFoodItem (@Req)*/
-	@DeleteMapping
+	@DeleteMapping("/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void deleteFood(@PathVariable Long id) {
 		foodItemService.deleteFood(id);

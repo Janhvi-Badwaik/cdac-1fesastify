@@ -14,5 +14,6 @@ public class FoodItemRespDTO extends BaseDTO {
 	private String imageURL;
 	private double price;
 	private String category;
+	private Boolean isVeg;
 
 }
