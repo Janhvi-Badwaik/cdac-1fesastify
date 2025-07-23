@@ -1,0 +1,56 @@
+package com.project.feastify.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+import com.project.feastify.dto.FoodItemReqDTO;
+import com.project.feastify.dto.FoodItemRespDTO;
+import com.project.feastify.service.FoodItemService;
+
+import lombok.AllArgsConstructor;
+
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+@CrossOrigin(origins = "http://localhost:3000")
+@RestController
+@RequestMapping("/food_items")
+@AllArgsConstructor
+public class FoodItemController {
+	//@Autowired
+	private final FoodItemService foodItemService;
+	
+	@PostMapping
+	public ResponseEntity<?> addFood(@RequestBody FoodItemReqDTO request ,@RequestPart("file") MultipartFile file ){
+		//ObjectMapper objectMapper = new ObjectMapper();
+		return ResponseEntity.status(HttpStatus.CREATED).body(foodItemService.addFood(request, file));
+	}
+	
+	@GetMapping
+	public ResponseEntity<?> getAllFoodItems(){
+		List<FoodItemRespDTO> foods = foodItemService.getFoods();
+		if(foods.isEmpty())
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+		return ResponseEntity.ok(foods);
+				}
+	
+	@GetMapping("/{foodid}")
+	public ResponseEntity<?> getFoodById(Long id){
+		return ResponseEntity.ok(foodItemService.getFood(id));
+	}
+	
+	
+	
+	
+	/*public ResponseEntity<?> addFoodItem (@Req)*/
+
+}
