@@ -107,14 +107,25 @@ public class FoodItemServiceImpl implements FoodItemService {
 		return modelMapper.map(entity, FoodItemRespDTO.class);
 	}
 
-	@Override
+	/*@Override
 	public List<FoodItemRespDTO> getFoods() {
 		return foodItemRepository.findAll()
 				.stream()
 				.map(foodItem -> modelMapper.map(foodItem, FoodItemRespDTO.class))
 				.collect(Collectors.toList());
 		
+	}*/
+	@Override
+	public List<FoodItemRespDTO> getFoods() {
+	    List<FoodItem> all = foodItemRepository.findAll();
+	    System.out.println("Foods in DB: " + all.size());
+	    all.forEach(f -> System.out.println(f.getName() + " - " + f.getImageURL()));
+	    
+	    return all.stream()
+	        .map(foodItem -> modelMapper.map(foodItem, FoodItemRespDTO.class))
+	        .collect(Collectors.toList());
 	}
+
 	
 	
 }

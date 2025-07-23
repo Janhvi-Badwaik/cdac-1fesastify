@@ -16,10 +16,12 @@ import com.project.feastify.dto.FoodItemRespDTO;
 import com.project.feastify.service.FoodItemService;
 
 import lombok.AllArgsConstructor;
+
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/food_items")
 @AllArgsConstructor
