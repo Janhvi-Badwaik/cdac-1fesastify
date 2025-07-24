@@ -25,12 +25,12 @@ export const categories =[
 
     },
     {
-        category: 'Cakes',
+        category: 'Cake',
         icon: cakes
 
     },
     {
-        category: 'Ice Cream',
+        category: 'Ice cream',
         icon: icecream
 
     },
