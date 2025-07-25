@@ -1,0 +1,5 @@
+package com.project.feastify.controller;
+
+public class AuthController {
+
+}

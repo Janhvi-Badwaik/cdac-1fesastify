@@ -21,6 +21,7 @@ public class UserController
 {
 	@Autowired
 	private UserService userService;
+
 	
 	@PostMapping("/register")
 	@ResponseStatus(HttpStatus.CREATED)

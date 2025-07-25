@@ -1,0 +1,5 @@
+package com.project.feastify.filters;
+
+public class JwtAuthenticationFilter {
+
+}
