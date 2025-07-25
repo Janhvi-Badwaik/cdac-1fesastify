@@ -1,0 +1,5 @@
+package com.project.feastify.service;
+
+public interface UserService {
+
+}

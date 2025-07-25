@@ -1,0 +1,5 @@
+package com.project.feastify.repository;
+
+public class UserRepository {
+
+}

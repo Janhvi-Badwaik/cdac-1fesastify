@@ -1,0 +1,5 @@
+package com.project.feastify.dto;
+
+public class UserResponseDTO {
+
+}
