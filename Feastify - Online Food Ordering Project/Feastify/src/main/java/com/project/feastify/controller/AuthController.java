@@ -38,8 +38,8 @@ public class AuthController {
 	public AuthenticationResponse login(@RequestBody AuthenticationRequest request) {
 		authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(),request.getPassword()));
 		final UserDetails userDetails = userDetailsService.loadUserByUsername(request.getEmail());
-		final String jwtToken = jwtUtil.generateToKen(userDetails);
-		return new AuthenticationResponse(request.getEmail(), request.getPassword());
+		final String jwtToken = jwtUtil.generateToken(userDetails);
+		return new AuthenticationResponse(request.getEmail(), jwtToken);
 	}
 
 }

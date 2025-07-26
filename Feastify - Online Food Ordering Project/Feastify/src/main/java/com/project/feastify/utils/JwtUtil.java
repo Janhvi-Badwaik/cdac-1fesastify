@@ -13,30 +13,27 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
-
 @Component
 public class JwtUtil {
+    @Value("${jwt.secret.key}")
+    private String SECRET_KEY;
 
-	@Value("${jwt.secret.key}")
-	private String SECRET_KEY;
-	
-	public String generateToKen(UserDetails userDetails) {
-		Map<String,Object> claims = new HashMap<>();
-		return createToken(claims,userDetails.getUsername());
-	}
+    public String generateToken(UserDetails userDetails) {
+        Map<String, Object> claiams = new HashMap<>();
+        return createToken(claiams, userDetails.getUsername());
+    }
 
-	private String createToken(Map<String, Object> claims, String subject) {
-		
-		return Jwts.builder()
-				.setClaims(claims)
-				.setSubject(subject)
-				.setIssuedAt(new Date(System.currentTimeMillis()))
-				.setExpiration(new Date(System.currentTimeMillis()+1000*60*60*10))//10 hours expiration
-				.signWith(SignatureAlgorithm.HS256,SECRET_KEY)
-				.compact();
-	}
-	
-	public String extractUsername(String token) {
+    private String createToken(Map<String, Object> claiams, String subject) {
+        return Jwts.builder()
+                .setClaims(claiams)
+                .setSubject(subject)
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10)) //10 hours expiration
+                .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
+                .compact();
+    }
+
+    public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
     }
 
@@ -65,5 +62,4 @@ public class JwtUtil {
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
 
-	
 }
