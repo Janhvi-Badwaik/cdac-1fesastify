@@ -6,4 +6,6 @@ import com.project.feastify.dto.UserResponseDTO;
 public interface UserService 
 {
 	UserResponseDTO registerUser(UserRequestDTO request);
+	
+	Long findById();
 }
