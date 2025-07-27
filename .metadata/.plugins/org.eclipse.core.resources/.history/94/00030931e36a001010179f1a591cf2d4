@@ -1,0 +1,43 @@
+package com.project.feastify.service;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.project.feastify.dto.CartRequestDTO;
+import com.project.feastify.dto.CartResponseDTO;
+import com.project.feastify.entities.Cart;
+import com.project.feastify.repository.CartRepository;
+
+@Service
+public class CartServiceImpl implements CartService 
+{
+	@Autowired
+	private CartRepository cartRepository;
+	
+	@Autowired
+	private UserService userService;
+	
+	@Autowired
+	private  ModelMapper modelMapper;
+	
+	@Override
+	public CartResponseDTO addToCart(CartRequestDTO request) 
+	{
+	    Long loggedInUserId = userService.findByUserId();  // Assuming this returns Long
+
+	    Optional<Cart> cartOptional = cartRepository.findById(loggedInUserId);
+	    Cart cart = cartOptional.orElseGet(() -> new Cart(loggedInUserId, new HashMap<>()));
+
+	    Map<Long, Integer> cartItems = cart.getItems();
+	    cartItems.put(request.getFoodId(), cartItems.getOrDefault(request.getFoodId(), 0) + 1);
+
+	    cart.setItems(cartItems);
+	    cart = cartRepository.save(cart);
+	}
+
+}

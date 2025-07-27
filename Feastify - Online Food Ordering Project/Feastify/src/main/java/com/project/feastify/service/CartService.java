@@ -1,6 +1,9 @@
 package com.project.feastify.service;
 
+import com.project.feastify.dto.CartRequestDTO;
+import com.project.feastify.dto.CartResponseDTO;
+
 public interface CartService 
 {
-	void addToCart(Long foodId);
+	CartResponseDTO addToCart(CartRequestDTO request);
 }

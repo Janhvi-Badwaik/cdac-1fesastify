@@ -3,12 +3,14 @@ package com.project.feastify.controller;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.web.server.ResponseStatusException;
+import com.project.feastify.dto.CartRequestDTO;
+import com.project.feastify.dto.CartResponseDTO;
 import com.project.feastify.service.CartService;
 
 
@@ -20,23 +22,13 @@ public class CartController
 	@Autowired
 	private CartService cartService;
 	
-	@PostMapping()
-	public ResponseEntity<?> addToCart(@RequestBody Map<String, Object> request) {
-	    Object foodIdObj = request.get("foodId");
-
-	    if (foodIdObj == null) {
-	        return ResponseEntity.badRequest().body("Food Id is Required");
-	    }
-
-	    Long foodId;
-	    try {
-	        foodId = Long.parseLong(foodIdObj.toString());
-	    } catch (NumberFormatException e) {
-	        return ResponseEntity.badRequest().body("Invalid Food Id");
-	    }
-
-	    cartService.addToCart(foodId);
-	    return ResponseEntity.ok("Added to cart");
-	}
+	@PostMapping
+    public CartResponseDTO addToCart(@RequestBody CartRequestDTO request) {
+        Long foodId = request.getFoodId();
+        if (foodId == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "foodId not found");
+        }
+        return cartService.addToCart(request);
+    }
 
 }

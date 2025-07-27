@@ -39,7 +39,7 @@ public class UserServiceImpl implements UserService
 	}
 
 	@Override
-	public Long findById() 
+	public Long findByUserId() 
 	{
 		String loggedInUserEmail = authenticationFacade.getAuthentication().getName();
 		UserEntity loggedInUser = userRepository.findByEmail(loggedInUserEmail).orElseThrow(()-> new UsernameNotFoundException("user not found"));

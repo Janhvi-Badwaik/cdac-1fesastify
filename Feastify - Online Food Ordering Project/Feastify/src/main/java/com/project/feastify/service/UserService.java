@@ -7,5 +7,5 @@ public interface UserService
 {
 	UserResponseDTO registerUser(UserRequestDTO request);
 	
-	Long findById();
+	Long findByUserId();
 }

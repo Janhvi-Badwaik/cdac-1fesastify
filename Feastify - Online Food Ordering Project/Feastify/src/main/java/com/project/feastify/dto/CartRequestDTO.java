@@ -4,15 +4,18 @@ import java.util.HashMap;
 import java.util.Map;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class CartRequestDTO 
 {
-	private String userId;
-	
-	private Map<String, Integer> items = new HashMap<>();
+	private Long foodId;
 }
