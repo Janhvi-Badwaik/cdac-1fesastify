@@ -26,7 +26,7 @@ public class FoodItem extends BaseEntity {
 	private double price;
 	private String category;
 	@Column(name="is_veg")
-	private Boolean isVeg;
+	private boolean isVeg;
 
 
 }

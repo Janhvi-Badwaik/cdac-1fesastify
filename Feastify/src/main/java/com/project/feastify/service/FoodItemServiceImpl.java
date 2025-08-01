@@ -23,7 +23,6 @@ import com.project.feastify.repository.FoodItemRepository;
 import lombok.AllArgsConstructor;
 import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.services.s3.S3Client;
-import software.amazon.awssdk.services.s3.model.DeleteObjectRequest;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 import software.amazon.awssdk.services.s3.model.PutObjectResponse;
 
@@ -108,36 +107,25 @@ public class FoodItemServiceImpl implements FoodItemService {
 		return modelMapper.map(entity, FoodItemRespDTO.class);
 	}
 
-	@Override
+	/*@Override
 	public List<FoodItemRespDTO> getFoods() {
 		return foodItemRepository.findAll()
 				.stream()
 				.map(foodItem -> modelMapper.map(foodItem, FoodItemRespDTO.class))
 				.collect(Collectors.toList());
 		
+	}*/
+	@Override
+	public List<FoodItemRespDTO> getFoods() {
+	    List<FoodItem> all = foodItemRepository.findAll();
+	    System.out.println("Foods in DB: " + all.size());
+	    all.forEach(f -> System.out.println(f.getName() + " - " + f.getImageURL()));
+	    
+	    return all.stream()
+	        .map(foodItem -> modelMapper.map(foodItem, FoodItemRespDTO.class))
+	        .collect(Collectors.toList());
 	}
 
-	@Override
-	public boolean deleteFile(String filename) {
-		DeleteObjectRequest deleteObjectRequest = DeleteObjectRequest.builder()
-				.bucket(bucketName)
-				.key(filename)
-				.build();
-		s3Client.deleteObject(deleteObjectRequest);
-		
-		return true;
-	}
-
-	@Override
-	public void deleteFood(Long id) {
-		FoodItemRespDTO response =  getFood(id);
-		String imageUrl = response.getImageURL();
-		String filename = imageUrl.substring(imageUrl.lastIndexOf("/")+1);
-		boolean isFileDeleted = deleteFile(filename);
-		if(isFileDeleted) {
-			foodItemRepository.deleteById(response.getId());
-		}
-	}
 	
 	
 }

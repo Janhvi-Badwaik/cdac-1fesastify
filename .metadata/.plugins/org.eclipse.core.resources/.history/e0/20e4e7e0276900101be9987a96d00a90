@@ -1,5 +1,0 @@
-package com.project.feastify.config;
-
-public class SecurityConfig {
-
-}
