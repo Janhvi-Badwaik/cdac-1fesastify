@@ -1,0 +1,11 @@
+package com.project.feastify.service;
+
+import com.project.feastify.dto.OrderRequest;
+import com.project.feastify.dto.OrderResponse;
+import com.razorpay.RazorpayException;
+
+public interface OrderService 
+{
+    OrderResponse createOrderWithPayment(OrderRequest request) throws RazorpayException;
+
+}

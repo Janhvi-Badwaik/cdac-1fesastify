@@ -1,0 +1,82 @@
+package com.project.feastify.controller;
+
+import com.project.feastify.dto.ApiResponse;
+import com.project.feastify.dto.OrderRequest;
+import com.project.feastify.dto.OrderResponse;
+import com.project.feastify.service.OrderService;
+import com.razorpay.RazorpayException;
+import lombok.AllArgsConstructor;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Map;
+
+@RestController
+@RequestMapping("/orders")
+@AllArgsConstructor
+
+public class OrderController {
+	@Autowired
+	private OrderService orderService;
+	
+	@PostMapping("/create")
+    /*@ResponseStatus(HttpStatus.CREATED)
+    public OrderResponse createOrderWithPayment(@RequestBody OrderRequest request) throws RazorpayException {
+        OrderResponse response = orderService.createOrderWithPayment(request);
+        return response;
+    }*/
+	public ResponseEntity<?> createOrderWithPayment(@RequestBody OrderRequest request) throws RazorpayException {
+		try {
+			return ResponseEntity.status(HttpStatus.CREATED).body(orderService.createOrderWithPayment(request));
+		}
+		catch (RuntimeException e) {
+			return ResponseEntity.status(HttpStatus.CONFLICT).body(new ApiResponse(e.getMessage()));
+			
+			
+		}
+	}
+	@PostMapping("/verify")
+    public void verifyPayment(@RequestBody Map<String, String> paymentData) {
+        orderService.verifyPayment(paymentData, "Paid");
+    }
+	
+	
+	
+	@GetMapping
+    /*public List<OrderResponse> getOrders() {
+        return orderService.getUserOrders();
+    }*/
+	public ResponseEntity<?> getOrders(){
+		List<OrderResponse> list = orderService.getUserOrders();
+		if (list.isEmpty()) {
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+		}
+		return ResponseEntity.ok(list);
+	}
+
+	@DeleteMapping("/{orderId}")
+    public void deleteOrder(@PathVariable Long orderId) {
+        orderService.removeOrder(orderId);
+    }
+	
+	@GetMapping("/all")
+	public ResponseEntity<?> getOrdersOfAllUsers() {
+		List<OrderResponse> list = orderService.getOrdersOfAllUsers();
+		if (list.isEmpty()) {
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+		}
+		return ResponseEntity.ok(list);
+		
+	}
+
+	@PatchMapping("/status/{orderId}")
+	public void updateOrderStatus(@PathVariable Long orderId, @RequestParam String status) {
+        orderService.updateOrderStatus(orderId, status);
+    }
+	
+	
+}

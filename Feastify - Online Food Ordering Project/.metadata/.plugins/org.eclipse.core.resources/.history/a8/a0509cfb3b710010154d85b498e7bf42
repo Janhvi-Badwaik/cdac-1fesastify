@@ -1,0 +1,25 @@
+spring.application.name=Feastify
+
+#DB config
+spring.datasource.url=jdbc:mysql://localhost:3306/feastify_online_food_ordering_application?createDatabaseIfNotExist=true&useUnicode=true
+spring.datasource.username=root
+spring.datasource.password=root
+
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.open-in-view=false
+spring.jpa.show-sql=true
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQLDialect
+#debug=true
+
+#aws S3 configuration
+aws.access.key=${AWS_ACCESS_KEY}
+aws.secret.key=${AWS_SECRET_KEY}
+aws.region = us-east-1
+aws.s3.bucketname = cdac-feastify
+
+jwt.secret.key = q2NpY29sZSBzdGFja2VY2hhbmdlIGludGVybmF0AW9udGVybmF0aW9uYWxpemF0aW9uIHJvYm90cyBpbg==
+
+#razorpay configuration
+razorpay_key = ${RAZORPAY_KEY}
+razorpay_secret= ${RAZORPAY_SECRET}
