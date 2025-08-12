@@ -1,0 +1,66 @@
+package com.project.feastify.controller;
+
+import java.util.List;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.project.feastify.dto.FoodItemReqDTO;
+import com.project.feastify.dto.FoodItemRespDTO;
+import com.project.feastify.service.FoodItemService;
+
+import lombok.AllArgsConstructor;
+
+@CrossOrigin("*")
+@RestController
+@RequestMapping("/food_items")
+@AllArgsConstructor
+public class FoodItemController {
+	//@Autowired
+	private final FoodItemService foodItemService;
+	
+	@PostMapping
+	public ResponseEntity<?> addFood( @RequestPart("food") String request ,@RequestPart("file") MultipartFile file) throws JsonMappingException, JsonProcessingException{
+		ObjectMapper objectMapper = new ObjectMapper();
+		FoodItemReqDTO foodRequest =  objectMapper.readValue(request, FoodItemReqDTO.class);
+		return ResponseEntity.status(HttpStatus.CREATED).body(foodItemService.addFood(foodRequest, file));
+		
+	}
+	
+	@GetMapping
+	public ResponseEntity<?> getAllFoodItems(){
+		List<FoodItemRespDTO> foods = foodItemService.getFoods();
+		if(foods.isEmpty())
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+		return ResponseEntity.ok(foods);
+				}
+	
+	@GetMapping("/{foodid}")
+	public ResponseEntity<?> getFoodById(@PathVariable("foodid")Long id){
+		return ResponseEntity.ok(foodItemService.getFood(id));
+	}
+	
+	
+	@DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteFood(@PathVariable Long id) {
+        foodItemService.deleteFood(id);
+    }
+
+	
+	/*public ResponseEntity<?> addFoodItem (@Req)*/
+
+}
